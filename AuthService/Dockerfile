@@ -15,9 +15,16 @@ ARG user=authservice
 ARG group=authservice
 ARG uid=1008
 ARG gid=1008
+ARG port=5000
+ARG managementport=5001
 
 RUN groupadd -g ${gid} ${group} && useradd -u ${uid} -g ${group} -s /bin/sh ${user}
 
 USER ${user}
 
 ENTRYPOINT ["dotnet", "authservice.dll"]
+
+ENV ASPNETCORE_URLS=http://*:${port};http://*:${managementport}
+ENV ASPNETCORE_MANAGEMENTPORT=${managementport}
+
+EXPOSE ${port} ${managementport}

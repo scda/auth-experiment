@@ -52,6 +52,8 @@ namespace authservice
                 endpoints.MapBlazorHub();
                 endpoints.MapFallbackToPage("/_Host");
                 endpoints.MapMetrics();
+                endpoints.MapHealthChecks("/healthz")
+                         .RequireHost($"*:{Configuration["ManagementPort"]}");
             });
         }
     }

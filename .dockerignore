@@ -1,9 +1,0 @@
-.dockerignore
-.gitignore
-.idea
-bin
-obj
-out
-ref
-infra
-README.md

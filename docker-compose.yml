@@ -9,12 +9,13 @@ services:
   authservice:
     container_name: authservice
     build: 
-      context: ./
+      context: ./AuthService
       dockerfile: Dockerfile
     networks:
       - internal
     ports:
-      - 8080:80
+      - 5000:5000
+      - 5001:5001
     environment:
       ASPNETCORE_ENVIRONMENT: "Development"
   prometheus:
