@@ -8,4 +8,9 @@
     <Folder Include="infra\grafana\docker-data-mount" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="prometheus-net.AspNetCore" Version="4.1.1" />
+    <PackageReference Include="prometheus-net.AspNetCore.HealthChecks" Version="4.1.1" />
+  </ItemGroup>
+
 </Project>
