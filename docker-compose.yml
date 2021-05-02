@@ -34,3 +34,34 @@ services:
       - 3030:3000
     volumes:
       - "./infra/grafana/docker-data-mount:/var/lib/grafana"
+    depends_on:
+      - prometheus
+  keycloak:
+    image: quay.io/keycloak/keycloak
+    networks:
+      - internal
+    ports:
+      - 8080:8080
+    environment:
+      KEYCLOAK_USER: "admin"
+      KEYCLOAK_PASSWORD: "admin"
+      DB_VENDOR: POSTGRES
+      DB_ADDR: postgres
+      DB_DATABASE: keycloak
+      DB_SCHEMA: public
+      DB_USER: keycloak
+      DB_PASSWORD: keycloak
+    depends_on:
+      - postgres
+  postgres:
+    image: postgres:13-alpine
+    networks:
+      - internal
+    ports:
+      - 5432:5432
+    volumes:
+      - "./infra/postgres/docker-data-mount:/var/lib/postgresql/data"
+    environment:
+      POSTGRES_DB: keycloak
+      POSTGRES_USER: keycloak
+      POSTGRES_PASSWORD: keycloak
