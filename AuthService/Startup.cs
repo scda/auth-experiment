@@ -15,13 +15,7 @@ namespace authservice
 {
     public class Startup
     {
-        private readonly IWebHostEnvironment _environment;
-
-        public Startup(IConfiguration configuration, IWebHostEnvironment environment)
-        {
-            Configuration = configuration;
-            _environment = environment;
-        }
+        public Startup(IConfiguration configuration) { Configuration = configuration; }
 
         public IConfiguration Configuration { get; }
 
@@ -50,7 +44,8 @@ namespace authservice
                         options.RequireHttpsMetadata = false; // required for non-https keycloak
                         options.Authority = Configuration["Security:Oidc:Authority"];
                         options.ClientId = "authserviceclient";
-                        options.MetadataAddress = Configuration["Security:Oidc:MetadataAddress"]; // will read config directly from keycloak
+                        options.MetadataAddress =
+                            Configuration["Security:Oidc:MetadataAddress"]; // will read config directly from keycloak
                         //options.ClientSecret = "secret"; // not required for authorization code flow
                         options.ResponseType = OpenIdConnectResponseType.Code;
                         options.SaveTokens = true;

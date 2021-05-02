@@ -20,5 +20,13 @@ Some experiment to see if I can get a working .NET service with keycloak auth an
 ### Auth in docker
 Auth works, if you start the .NET service locally via IDE or from the command line. It will not work when the service is started as docker container. Currently the oidc library for .NET accepts only one address for the auth provider. If you run keycloak in docker and the .NET service outside, everything is fine: authservice and your browser both use `localhost:8080` to contact keycloak. If the .NET service also runs inside docker, it needs to contact keycloak via its container name `keycloak` while the browser still needs `localhost`. The reference to a `MetadataAddress` from which the .NET service can pull its configuration will not make a difference.
 
+**links**
+- [similar issue for the identity server](https://github.com/IdentityServer/IdentityServer4/issues/4668)
+
 ### cookies
 Currently the browser will set a cookie instead of using refresh and access tokens, which I would have preferred here. 
+
+### automatic infrastructure
+- the keycloak setup still requires manual steps:
+  - import the realm config (from `infra/keycloak/realm-export-authservice.json`)
+  - add users
