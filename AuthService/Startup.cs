@@ -48,13 +48,15 @@ namespace authservice
                     .AddOpenIdConnect("oidc", options =>
                     {
                         options.RequireHttpsMetadata = false; // required for non-https keycloak
-                        options.Authority = "http://localhost:8080/auth/realms/authservice";
+                        options.Authority = Configuration["Security:Oidc:Authority"];
                         options.ClientId = "authserviceclient";
-                        //options.ClientSecret = "secret";
+                        options.MetadataAddress = Configuration["Security:Oidc:MetadataAddress"]; // will read config directly from keycloak
+                        //options.ClientSecret = "secret"; // not required for authorization code flow
                         options.ResponseType = OpenIdConnectResponseType.Code;
                         options.SaveTokens = true;
                         options.GetClaimsFromUserInfoEndpoint = true;
                         options.UseTokenLifetime = false;
+                        options.UsePkce = true;
                         options.Scope.Add("openid");
                         options.Scope.Add("profile");
                         options.TokenValidationParameters = new
@@ -74,8 +76,8 @@ namespace authservice
                         };
                         // .AddJwtBearer(o =>
                         // {
-                        //     o.Authority = Configuration["Security:Jwt:Authority"]; // TODO: use options pattern
-                        //     o.Audience = Configuration["Security:Jwt:Audience"];
+                        //     o.Authority = Configuration["Security:Oidc:Authority"]; // TODO: use options pattern
+                        //     o.Audience = Configuration["Security:Oidc:Audience"];
                         //     o.Events = new JwtBearerEvents
                         //     {
                         //         OnAuthenticationFailed = c =>
